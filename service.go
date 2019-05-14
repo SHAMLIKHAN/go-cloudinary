@@ -511,10 +511,13 @@ func (s *Service) Upload(path string, data io.Reader, prepend string, randomPubl
 				return path, err
 			}
 		} else {
-			return s.uploadFile(path, nil, randomPublicId)
+			secureUrl, err := s.uploadFile(path, nil, randomPublicId)
+			s.SecureUrl[info.Name()] = secureUrl
+			return secureUrl, err
 		}
 	} else {
-		return s.uploadFile(path, data, randomPublicId)
+		secureUrl, err := s.uploadFile(path, data, randomPublicId)
+		return secureUrl, err
 	}
 	return path, nil
 }
